@@ -1,0 +1,18 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+</head>
+<body>
+  <button id="downloadBtn">Download file</button>
+
+  <script>
+    document.getElementById('downloadBtn').addEventListener('click', () => {
+      const a = document.createElement('a');
+      a.href = '1.doc'; // path to file in "photo" folder
+      a.download = '1.doc';
+      a.click();
+    });
+  </script>
+</body>
+</html>
