@@ -1,7 +1,7 @@
 # dscode
 
-#include <stdio.h>
-#include <stdlib.h>
+include <stdio.h>
+include <stdlib.h>
 
 struct Node {
     int data;
@@ -15,11 +15,10 @@ void insert(int value) {
     newNode->data = value;
     newNode->link = NULL;
 
-    if (head == NULL) {
-        head = newNode;
+   if (head == NULL) {
+      head = newNode;
         return;
     }
-
     struct Node* ptr = head;
     while (ptr->link != NULL)
         ptr = ptr->link;
@@ -29,29 +28,25 @@ void insert(int value) {
 void delete(int value) {
     struct Node *ptr = head, *prev = NULL;
 
-    if (ptr == NULL) {
+  if (ptr == NULL) {
         printf("List is empty!\n");
         return;
     }
-
-    if (ptr != NULL && ptr->data == value) {
+  if (ptr != NULL && ptr->data == value) {
         head = ptr->link;
         free(ptr);
         printf("%d deleted successfully.\n", value);
         return;
     }
-
     while (ptr != NULL && ptr->data != value) {
         prev = ptr;
         ptr = ptr->link;
     }
-
     if (ptr == NULL) {
         printf("Value not found!\n");
         return;
     }
-
-    prev->link = ptr->link;
+  prev->link = ptr->link;
     free(ptr);
     printf("%d deleted successfully.\n", value);
 }
@@ -73,7 +68,7 @@ void display() {
 int main() {
     int choice, value;
 
-    while (1) {
+ while (1) {
         printf("\n--- Singly Linked List Menu ---\n");
         printf("1. Insert\n");
         printf("2. Delete\n");
@@ -82,7 +77,7 @@ int main() {
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
-        switch (choice) {
+  switch (choice) {
         case 1:
             printf("Enter value to insert: ");
             scanf("%d", &value);
