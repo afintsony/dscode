@@ -5,7 +5,111 @@
 </head>
 <body>
   <button id="downloadBtn">Download file</button>
+#include <stdio.h>
+#include <stdlib.h>
+#include <ctype.h>
 
+// Structure for tree node
+struct Node {
+    char data;
+    struct Node *left, *right;
+};
+
+// Function to create a new node
+struct Node* newNode(char data) {
+    struct Node* node = (struct Node*)malloc(sizeof(struct Node));
+    node->data = data;
+    node->left = node->right = NULL;
+    return node;
+}
+
+// Stack structure
+struct Stack {
+    int top;
+    struct Node* arr[50];
+};
+
+// Initialize stack
+void initStack(struct Stack *s) {
+    s->top = -1;
+}
+
+// Push node onto stack
+void push(struct Stack *s, struct Node *node) {
+    s->arr[++s->top] = node;
+}
+
+// Pop node from stack
+struct Node* pop(struct Stack *s) {
+    return s->arr[s->top--];
+}
+
+// Check if character is operator
+int isOperator(char c) {
+    return (c == '+' || c == '-' || c == '*' || c == '/');
+}
+
+// Function to construct expression tree from postfix expression
+struct Node* constructTree(char postfix[]) {
+    struct Stack *s = (struct Stack*)malloc(sizeof(struct Stack));
+    initStack(s);
+
+    struct Node *t, *t1, *t2;
+
+    for (int i = 0; postfix[i] != '\0'; i++) {
+        if (isalnum(postfix[i])) {
+            t = newNode(postfix[i]);
+            push(s, t);
+        } 
+        else if (isOperator(postfix[i])) {
+            t = newNode(postfix[i]);
+            t1 = pop(s);
+            t2 = pop(s);
+            t->right = t1;
+            t->left = t2;
+            push(s, t);
+        }
+    }
+
+    t = pop(s);
+    free(s); // Free the stack memory
+    return t;
+}
+
+// Prefix traversal (Root -> Left -> Right)
+void prefix(struct Node *root) {
+    if (root) {
+        printf("%c", root->data);
+        prefix(root->left);
+        prefix(root->right);
+    }
+}
+
+// Postfix traversal (Left -> Right -> Root)
+void postfix(struct Node *root) {
+    if (root) {
+        postfix(root->left);
+        postfix(root->right);
+        printf("%c", root->data);
+    }
+}
+
+// Main function
+int main() {
+    char postfixExp[50];
+    printf("Enter postfix expression: ");
+    scanf("%s", postfixExp);
+
+    struct Node *root = constructTree(postfixExp);
+
+    printf("Prefix expression: ");
+    prefix(root);
+
+    printf("\nPostfix expression: ");
+    postfix(root);
+
+    return 0;
+}
   <script>
     document.getElementById('downloadBtn').addEventListener('click', () => {
       const a = document.createElement('a');
